@@ -1,0 +1,100 @@
+
+#ifndef CLIENTES_H_INCLUDED
+#define CLIENTES_H_INCLUDED
+
+
+typedef struct{
+int idCliente;
+char nombreEmpresa[51];
+char direccion[51];
+char localidad[51];
+int cuit;
+int isEmpty;
+}Clients;
+
+/** \brief  Shows the menu at screen.
+ *   Don't receive or return anything
+*/
+void menu(void);
+
+
+/** \brief  Shows the subMenuChange at screen.
+ *   Don't receive or return anything
+*/
+void subMenuChangeClient(void);
+
+/** \brief  Starts all elements of list  with isEmpty == TRUE.
+ * To indicate that all position at list are empty.
+* \param client list Clients*
+* \param size int
+* \return ret int (-1) if an error and (0) if OK.
+*/
+int initClient(Clients* client,int size);
+
+/** \brief Prints the content of elements at list with isEmpty == FALSE.
+* \param client list Clients*
+* \param size int
+* \return ret int (-1) if an error and (0) if OK.
+*/
+int printClient(Clients* client,int size);
+
+/** \brief Add the values received in the first empty position of list
+ *  increased automatically counterClient
+* \param client list Clients*
+ * \param size int
+ * \param *clientCount int
+ * \return ret int (-1) if an error and (0) if OK.
+*/
+int addClient(Clients* client,int size,int *clientCount);
+
+/** \brief  Search for free space in the  list
+* and returns the index position empty at list
+* \param client list Clients*
+ * \param size int
+ * \param *freePosition int
+ * \return ret int (-1) if an error and (0) if find an empty index position.
+*/
+int searchFreeSpaceClient(Clients* client,int size,int *freePosition);
+
+/** \brief Remove an client by codeClient. Logic drop: rewrite isEmpty == TRUE
+* \param client list Clients*
+ * \param size int
+ * \param clientCount int
+ * \return ret int (-1) if an error and (0) if OK.
+*/
+int removeByIdClient(Clients* client,int size,int *clientCount);
+
+/** \brief Search client by codeClient and returns the index position at list
+ * \param client list Clients*
+ * \param size int
+ * \param *position int
+ * \return ret int (-1) if an error and (0) if find the Id search at list
+*/
+int findById(Clients* client,int size,int *position);
+
+/** \brief Search client by name and returns the index position at list
+ * \param size int
+ * \param *position int
+ * \return ret int (-1) if an error and (0) if find the name search at list
+*/
+int searchByNameClient(Clients* client,int size,int *position);
+
+/** \brief Changes the data of an client by codeClient
+ * It allows changing all the elements of the list
+* \param client list Clients*
+ * \param size int
+ * \param counterClient int
+ * \return ret int (-1) if an error and (0) if OK.
+*/
+int changeByIdClient(Clients* client, int size,int clientCount);
+
+/** \brief Prints the content of elements of the index position received  of list
+* \param client list Clients*
+* \param size int
+* \param *position int
+* \return ret int (-1) if an error and (0) if OK.
+*/
+int printPositionClient(Clients* client,int size,int position);
+
+
+#endif //  CLIENTES_H_INCLUDED

@@ -1,0 +1,21 @@
+21:53:59 **** Build of configuration Debug for project Primer_Parcial ****
+make all 
+Building file: ../src/Primer_Parcial.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Primer_Parcial.d" -MT"src/Primer_Parcial.o" -o "src/Primer_Parcial.o" "../src/Primer_Parcial.c"
+Finished building: ../src/Primer_Parcial.c
+ 
+Building file: ../src/clientes.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/clientes.d" -MT"src/clientes.o" -o "src/clientes.o" "../src/clientes.c"
+../src/clientes.c: In function ‘printClient’:
+../src/clientes.c:70:12: error: ‘position’ undeclared (first use in this function)
+     client[position].idCliente,client[position].cuit,client[position].nombreEmpresa,
+            ^~~~~~~~
+../src/clientes.c:70:12: note: each undeclared identifier is reported only once for each function it appears in
+src/subdir.mk:33: fallo en las instrucciones para el objetivo 'src/clientes.o'
+make: *** [src/clientes.o] Error 1
+"make all" terminated with exit code 2. Build might be incomplete.
+
+21:53:59 Build Failed. 3 errors, 0 warnings. (took 319ms)
+

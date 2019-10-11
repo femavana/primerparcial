@@ -1,0 +1,16 @@
+
+#ifndef PROCESO_H_INCLUDED
+#define PROCESO_H_INCLUDED
+
+
+typedef struct{
+int idCliente;
+char nombreEmpresa[51];
+char direccion[51];
+char localidad[51];
+int cuit;
+int isEmpty;
+}Clients;
+
+
+#endif //  PROCESO_H_INCLUDED

@@ -1,0 +1,8 @@
+
+
+/** \brief Prints the content of elements at list with isEmpty == FALSE.
+* \param client list Clients*
+* \param size int
+* \return ret int (-1) if an error and (0) if OK.
+*/
+

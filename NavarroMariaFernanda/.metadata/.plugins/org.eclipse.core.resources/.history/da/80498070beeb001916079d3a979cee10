@@ -1,0 +1,454 @@
+
+#include <stdio.h>
+#include <stdio_ext.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+//SYSTEM
+void clearScreen(void)
+{
+    system("clear");
+}
+
+//GETS
+int getFloat(float *pResultado,
+			 char* mensaje,
+			 char* msjError,
+			 int minimo,
+			 int maximo,
+			 int reintentos)
+{
+    int ret = -1;
+	float buffer;
+	do
+	{
+		printf("%s",mensaje);
+		__fpurge(stdin);
+		scanf("%f",&buffer);
+		if(buffer >= minimo && buffer <= maximo)
+		{
+			*pResultado=buffer;
+			ret = 0;
+			break;
+		}
+		else
+		{
+		printf("\t%s",msjError);
+		reintentos--;
+		}
+	}while(reintentos >= 0);
+	return ret;
+}
+
+int getInt(	int *pResultado,
+			char* mensaje,
+			char* mensajeError,
+			int minimo,
+			int maximo,
+			int reintentos)
+{
+	int ret=-1;
+	int buffer;
+	do
+	{
+		printf("%s",mensaje);
+		__fpurge(stdin);
+		if(scanf("%d",&buffer)==1 && buffer >= minimo && buffer <= maximo)
+		{
+			*pResultado=buffer;
+			ret=0;
+			break;
+		}
+		else
+		{
+		printf("%s",mensajeError);
+		reintentos--;
+		break;
+		}
+	}while(reintentos >= 0);
+	return ret;
+}
+
+int getLetter(char *input,
+		      char* message,
+		      char* msgError,
+		      int minSize,
+		      int maxSize,
+		      int retries)
+{
+	int ret=-1;
+	char buffer;
+	do
+	{
+		printf("%s",message);
+		__fpurge(stdin);
+		scanf("%c",&buffer);
+		if(buffer == minSize || buffer == maxSize)
+		{
+			*input=buffer;
+			ret=0;
+			break;
+		}
+		else
+		{
+		printf("%s",msgError);
+		retries--;
+		break;
+		}
+	}while(retries >= 0);
+	return ret;
+}
+
+int getString(char* input,
+		      char* message,
+			  char* msgError,
+			  int   minSize,
+			  int   maxSize,
+			  int   retries)
+{
+    int ret=-1;
+    int size;
+    char bufferStr[maxSize];
+     do{
+        	printf("%s",message);
+        	__fpurge(stdin);
+        	scanf("%[^\n]s", bufferStr);
+        	size=strlen(bufferStr);
+        	if(size>=minSize && size<maxSize)
+        	{    strncpy(input,bufferStr,maxSize);
+        	     ret=0;
+        	     break;
+        	}
+     }while(retries>=0);
+    return ret;
+}
+
+int getStrChar(char* input,
+		      char* message,
+		      char* msgError,
+		      int minSize,
+		      int maxSize,
+		      int retries)
+{
+    int ret=-1;
+    char bufferStr[256];
+    if(message!=NULL && msgError!=NULL && minSize<maxSize && retries>=0 && input!=NULL)
+    	{
+    do{
+    if(message!=NULL && msgError!=NULL && minSize<=maxSize && retries>=0 && input!=NULL)
+    {
+      if(!getString(bufferStr,message,msgError,minSize,maxSize,retries))
+      {
+    	 if(isValidChar(bufferStr)==1)
+    	 {
+    		  strncpy(input,bufferStr,maxSize);
+    		  ret=0;
+    		  break;
+    	}
+       else
+       {
+       printf("%s",msgError);
+       retries--;
+       }
+      }
+     }
+        }while(retries>=0);
+}
+  return ret;
+}
+
+int getStrNumber(char* input,
+		       char* message,
+		       char* msgError,
+		       int minSize,
+		       int maxSize,
+		       int retries)
+{
+	int ret=-1;
+	char bufferStr[maxSize];
+	if(message!=NULL && msgError!=NULL && minSize<maxSize && retries>=0 && input!=NULL)
+	{
+	do{
+	if(!getString(bufferStr,message,msgError,minSize,maxSize,retries))
+	 {
+	  if(isValidNumber(bufferStr)==1)
+		{
+		  strncpy(input,bufferStr,maxSize);
+		  ret=0;
+		  break;
+		}
+		else
+		{
+		 printf("%s",msgError);
+		  retries--;
+		 }
+	   }
+		 }while(retries>=0);
+	}
+return ret;
+}
+
+int getAlphanumeric(char *input,
+	      char* message,
+	      char* msgError,
+	      int minSize,
+	      int maxSize,
+	      int retries)
+{
+int ret=-1;
+char bufferStr[maxSize];
+if(message!=NULL && msgError!=NULL && minSize<maxSize && retries>=0 && input!=NULL)
+{
+do{
+if(!getString(bufferStr,message,msgError,minSize,maxSize,retries))
+ {
+	if(isValidAlphanumeric(bufferStr)==1)
+	 {
+	  strncpy(input,bufferStr,maxSize);
+	  ret=0;
+	  break;
+	}
+	else
+	{
+	 printf("%s",msgError);
+	 retries--;
+	 }
+   }
+    }while(retries>=0);
+}
+return ret;
+}
+
+int getTelephone(char* input,
+		       char* message,
+		       char* msgError,
+		       int minSize,
+		       int maxSize,
+		       int retries)
+{
+	int ret=-1;
+	char bufferStr[maxSize];
+  if(message!=NULL && msgError!=NULL && minSize<maxSize && minSize<maxSize && retries>=0 && input!=NULL)
+  {
+	do{
+	if(!getString(bufferStr,message,msgError,minSize,maxSize,retries))
+	 {
+		if(isValidTelephone(bufferStr)==1)
+		{
+			strncpy(input,bufferStr,maxSize);
+			ret=0;
+			break;
+		}
+		else
+		{
+		 printf("%s",msgError);
+		  retries--;
+		 }
+	 }
+		 }while(retries>=0);
+  }
+return ret;
+}
+
+//validations
+
+int isValidChar(char* aux)
+{
+int ret=1;
+int i;
+   for(i=0;aux[i]!='\0';i++)
+    {
+	   if((aux[i]<'A' || aux[i]>'Z') && (aux[i]<'a' || aux[i]>'z'))
+       {
+       ret= 0;
+       i++;
+       }
+   }
+return ret;
+}
+
+int isValidAlphanumeric(char* aux)
+{
+   int ret=1;
+   int i;
+   for(i=0;aux[i]!='\0';i++)
+   {
+          if(aux[i]==' '||aux[i]<'0' || (aux[i]>'9' && aux[i]<'A') || (aux[i]>'Z' && aux[i]<'a') || aux[i]>'z' )
+          {
+              ret=0;
+              break;
+          }
+      }
+return ret;
+}
+
+int isValidTelephone(char* aux)
+{
+	int ret=1;
+	int i;
+	   for(i=0;aux[i]!='\0';i++)
+	   {
+	       if((aux[i] != ' ') && (aux[i] != '-') && (aux[i] < '0' || aux[i] > '9'))
+	       {
+	    	   ret= 0;
+	       }
+	   }
+return ret;
+}
+
+int isValidNumber(char* aux)
+{
+    int ret=1;
+    int i;
+    for(i=0;aux[i]!='\0';i++)
+    {
+        if(aux[i]<'0' || aux[i]>'9')
+        {
+            ret=0;
+            break;
+        }
+    }
+    return ret;
+}
+/*otros
+ *
+ *int utn_getDNI(
+ *int char* msg,
+ *int char* msgError,
+ *int int minSize,
+ *int int maxSize,
+ *int int reintentos,
+ *int char* input)
+{
+    maxSize=11; //con puntos
+    minSize=8;  // sin puntos
+    int ret=-1;
+    char bufferStr[maxSize];
+
+    if(msg!=NULL && msgError!=NULL && minSize<maxSize && reintentos>=0 && input!=NULL)
+    {
+        do
+        {
+            if(!getString(msg,msgError,minSize,maxSize,&reintentos,bufferStr)) //==0 sin errores !0
+            {
+                if(isValidDNI(bufferStr)==1)
+                {
+                    strncpy(input,bufferStr,maxSize);
+                    retorno=0;
+                    break;
+                }
+                else
+                {
+                    printf("%s 2",msgError);
+                    reintentos--;
+                }
+            }
+        }
+        while(reintentos>=0);
+    }
+    return int utn_getDNI(char* msg, char* msgError, int minSize, int maxSize, int reintentos, char* input)
+{
+    maxSize=11; //con puntos
+    minSize=8;  // sin puntos
+    int ret=-1;
+    char bufferStr[maxSize];
+
+    if(msg!=NULL && msgError!=NULL && minSize<maxSize && reintentos>=0 && input!=NULL)
+    {
+        do
+        {
+            if(!getString(msg,msgError,minSize,maxSize,&reintentos,bufferStr)) //==0 sin errores !0
+            {
+                if(isValidDNI(bufferStr)==1)
+                {
+                    strncpy(input,bufferStr,maxSize);
+                    ret=0;
+                    break;
+                }
+                else
+                {
+                    printf("%s 2",msgError);
+                    reintentos--;
+                }
+            }
+        }
+        while(reintentos>=0);
+    }
+    return ret;
+}
+;
+}
+ *
+char getNumeroAleatorio(int desde , int hasta, int iniciar)
+{
+    if(iniciar)
+    srand (time(NULL));
+    return desde + (rand() % (hasta + 1 - desde)) ;
+}
+
+int isValidCUIT(char* aux)
+{
+    int ret=1;
+    int i;
+    int j;
+    char buffer[14];
+    strncpy(buffer,stringRecibido,14);
+
+    for(i=0;buffer[i]!='\0';i++)
+    {
+        if((buffer[i]<'0' || buffer[i]>'9') && (buffer[i]!='-'))
+        {
+            ret=0;
+            break;
+        }
+
+        if(buffer[i]=='-')
+        {
+            for(j=i;buffer[j]!='\0';j++)
+            {
+                strncpy(&buffer[j],&buffer[j+1],1);
+            }
+        }
+    }
+
+    int digitos[10]={2,3,4,5,6,7,2,3,4,5};
+    int acumulado = 0;
+    int verificador;
+
+    for(i=0;i < strlen(buffer-1); i++)
+    {
+        acumulado+=buffer[i]*digitos[i];
+    }
+
+    verificador=11-(acumulado%11);
+	if(verificador == 11)
+	{
+		verificador = 0;
+	}
+
+	if(buffer[11]!=verificador)
+    {
+        ret=0;
+    }
+
+  //if(stringRecibido[2]!='-' || stringRecibido[11]!='-' || stringRecibido[0]!='2' || stringRecibido[1]!='0' || stringRecibido[1]!='3' || stringRecibido[1]!='4' || stringRecibido[1]!='7')
+    return ret;
+}
+
+int isValidDNI(char* stringRecibido)
+{
+    int ret=1;
+    int i;
+    for(i=0;stringRecibido[i]!='\0';i++)
+    {
+        if((stringRecibido[i]<'0' || stringRecibido[i]>'9') && (stringRecibido[i]!='.'))
+        {
+            ret=0;
+            break;
+        }
+    }
+    return ret;
+}
+
+*/

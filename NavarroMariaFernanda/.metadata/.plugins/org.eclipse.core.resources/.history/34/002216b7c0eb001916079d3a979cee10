@@ -1,0 +1,13 @@
+
+#include <stdio.h>
+#include <stdio_ext.h>
+#include <stdlib.h>
+#include <string.h>
+#include "clientes.h"
+#include "getInput.h"
+#define CANT_CLIENTES 100
+#define CANT_PEDIDOS 1000
+#define TRUE 0
+#define FALSE 1
+#define ESTADO_PENDIENTE 1
+#define ESTADO_COMPLETADO 0

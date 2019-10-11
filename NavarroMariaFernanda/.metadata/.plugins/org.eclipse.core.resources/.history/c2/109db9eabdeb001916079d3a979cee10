@@ -1,0 +1,16 @@
+
+
+#ifndef INFORMES_H_INCLUDED
+#define INFORMES_H_INCLUDED
+
+
+int reportClient(Clients* client,int size)
+{
+
+
+return 0;
+}
+
+
+
+#endif //  INFORMES_H_INCLUDED
