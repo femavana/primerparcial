@@ -103,8 +103,13 @@ int kilosRecicladoByTipoPlastico(Pedidos* pedido,Clients* client,int cant,int si
 * \param size int size for pedido
 */
 int orderProcessedListByCriteria(Pedidos* pedido,Clients* client,int cant,int size);
-
-
+/** \brief Lista los pedidos completados y muestra la cantidad de PP promdeio por cliente
+ * \param pedido list pedidos*
+* \param client list Clients*
+* \param cant int size for client
+* \param size int size for pedido
+*/
+int orderPPListByCriteria(Pedidos* pedido,Clients* client,int cant,int size);
 
 #endif //  INFORMES_H_INCLUDED
 

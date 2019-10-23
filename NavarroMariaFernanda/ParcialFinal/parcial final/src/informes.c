@@ -194,7 +194,7 @@ int cargaInformes(Pedidos* pedido,Clients* client,int cant,int size)
         	       break;
         	  case 'h':
         	        printf("\n__Pedidos_completados__");
-        	        // orderProcessedListByCriteria(pedido,client,CANT_CLIENTES,CANT_PEDIDOS);
+        	          orderProcessedListByCriteria(pedido,client,CANT_CLIENTES,CANT_PEDIDOS);
         	          break;
         	  case 'i':
         	         printf("\n__Cantidad_pedidos_pendientes_por_localidad__");
@@ -202,10 +202,11 @@ int cargaInformes(Pedidos* pedido,Clients* client,int cant,int size)
         	         break;
         	  case 'j':
         	         printf("\n__Cantidad_kilos_de_polipropileno_reciclado_promedio_por_cliente__");
+
         	         break;
         	  case 'k':
         	         printf("\n__Cantidad_kilos_totales_reciclados_de_cliente_por_tipo_de_plastico");
-
+        	         kilosRecicladoByTipoPlastico(pedido,client,CANT_CLIENTES,CANT_PEDIDOS);
         	         break;
         	  }
 		    }while(option !='l');
@@ -562,106 +563,13 @@ int clientsLessRecicled(Pedidos* pedido,Clients* client,int cant, int size)
 	  return ret;
 	}
 
-/**
-int kilosRecicladoByTipoPlastico(Pedidos* pedido,Clients* client,int cant,int size)
-{
-	int ret=-1;
-	int i;//client
-	int j;//pedido
-    char localidad[51];
-    char cuit[51];
-    char tipo[51];
-
-	   if(client!= NULL && cant > 0 && pedido!= NULL && size > 0)
-	   {
-	    getCUIT(cuit,"Ingrese el CUIT de la empresa: ","Error!!.Ingrese ej:00-00000000-0 \n",10,14,2);
-	    for(i=0;i<cant;i++)
-	     {
-	     if(client[i].isEmpty==FALSE && strcmp(cuit,client[i].cuit)==0)
-	     {
-	        for(j=0;j<size;j++)
-	         {
-	         getName(tipo,"\nIngrese un tipo de plastico (HDPE ||LDPE||PP): ","Error!!.\n",2,4,2);
-	         if(pedido[j].isEmpty==FALSE && pedido[j].idCliente == client[i].idCliente)
-	        	  {
-	              if(strcmp(tipo,pedido[i].HDPE)==0)
-	              {
-	            	  pedidoPendiente++;
-
-	            	 }
-	               }
-	              }
-	        ret=0;
-	     }
-	      }
-	   }
-
-	    if(ret==0)
-	    {
-      	 printf("La localidad %s tiene %d pedidos pendientes\n",localidad,pedidoPendiente);
-		 }
-	    else
-	    {
-	     printf("La localidad no existe. Ingrese solo mayusculas\n");
-	    }
-int kilosRecicladoByTipoPlastico(Pedidos* pedido,Clients* client,int cant,int size)
-{
-	int ret=-1;
-	int i;//client
-	int j;//pedido
-    char localidad[51];
-    char cuit[51];
-    char tipo[51];
-
-	   if(client!= NULL && cant > 0 && pedido!= NULL && size > 0)
-	   {
-	    getCUIT(cuit,"Ingrese el CUIT de la empresa: ","Error!!.Ingrese ej:00-00000000-0 \n",10,14,2);
-	    for(i=0;i<cant;i++)
-	     {
-	     if(client[i].isEmpty==FALSE && strcmp(cuit,client[i].cuit)==0)
-	     {
-	        for(j=0;j<size;j++)
-	         {
-	         getName(tipo,"\nIngrese un tipo de plastico (HDPE ||LDPE||PP): ","Error!!.\n",2,4,2);
-	         if(pedido[j].isEmpty==FALSE && pedido[j].idCliente == client[i].idCliente)
-	        	  {
-	              if(strcmp(tipo,pedido[i].HDPE)==0)
-	              {
-	            	  pedidoPendiente++;
-
-	            	 }
-	               }
-	              }
-	        ret=0;
-	     }
-	      }
-	   }
-
-	    if(ret==0)
-	    {
-      	 printf("La localidad %s tiene %d pedidos pendientes\n",localidad,pedidoPendiente);
-		 }
-	    else
-	    {
-	     printf("La localidad no existe. Ingrese solo mayusculas\n");
-	    }
-
-
-return ret;
-}
-
-
-return ret;
-}
-
 int orderProcessedListByCriteria(Pedidos* pedido,Clients* client,int cant,int size)
 {
 	    int ret=-1;
 		int i=0;//client
 		int j=0;//pedido
-        int porcentaje=0;
+        int porcentaje;
         int cantReciclado;
-        int recicladoCliente[7];
 
 		   if(client!= NULL && cant > 0 && pedido!= NULL && size > 0)
 		   {
@@ -676,46 +584,97 @@ int orderProcessedListByCriteria(Pedidos* pedido,Clients* client,int cant,int si
 		              if(pedido[j].estado==ESTADO_COMPLETADO)
 		              {
 		            	cantReciclado=(pedido[j].HDPE + pedido[j].LDPE + pedido[j].PP);
-		              }
-		              }
-		            }
-		      recicladoCliente[i]=cantReciclado;
-		      cantReciclado=0;
-		     }
-		    }
-		  }
-
-		   	if(client!= NULL && cant )
-		   {
-		   	for(i=0;i<7;i++)
-		   	{
-		   	porcentaje=(recicladoCliente[i]/cant);
-		   	ret=0;
-		   	}
-		   }
-
-	    if(client!= NULL && cant )
-	    {
-		 for(i=0;i<cant;i++)
-		 {
-		 if(client[i].isEmpty==FALSE)
-		 {
-		for(j=0;j<size;j++)
-		{
-		if(pedido[j].isEmpty==FALSE && pedido[j].idCliente == client[i].idCliente)
-		{
-		if(pedido[j].estado==ESTADO_COMPLETADO)
-		{
+		                porcentaje=(cantReciclado/cant);
 		 printf("\nIdPedido%d \nNombre_Empresa:%s \nCUIT:%s \nPlastico_reciclado: %d %c",
 		 pedido[j].idPedido,client[i].nombreEmpresa,client[i].cuit,porcentaje,37);
 		 printf("____________________________________________________________________\n");
-		   }
-		  }
-		}
-		}
-	    }
-		}
+		              }
+		              }
+		            }
+		            }
+		            }
+		            }
 
 return ret;
 }
-*/
+
+int kilosRecicladoByTipoPlastico(Pedidos* pedido,Clients* client,int cant,int size)
+{
+	int ret=-1;
+	int i;//client
+	int j;//pedido
+    char cuit[51];
+    int option;
+
+	   if(client!= NULL && cant > 0 && pedido!= NULL && size > 0)
+	   {
+	    getCUIT(cuit,"Ingrese el CUIT de la empresa: ","Error!!.Ingrese ej:00-00000000-0 \n",10,14,2);
+	    for(i=0;i<cant;i++)
+	     {
+	     if(client[i].isEmpty==FALSE && strcmp(cuit,client[i].cuit)==0)
+	     {
+	        for(j=0;j<size;j++)
+	         {
+	         getInt(&option,"\nIngrese un tipo de plastico (1-HDPE ||2-LDPE||3-PP): ","Error!!.\n",1,3,2);
+	         if(pedido[j].isEmpty==FALSE && pedido[j].idCliente == client[i].idCliente)
+	        {
+	        	 switch(option)
+	        	 {
+	        	 case 1:
+	        		 printf("\nIdPedido%d \nNombre_Empresa:%s \nCUIT:%s \nPlastico_reciclado: %f",
+	        		 pedido[j].idPedido,client[i].nombreEmpresa,client[i].cuit,pedido[j].HDPE);
+	        		 break;
+	        	 case 2:
+	        		 printf("\nIdPedido%d \nNombre_Empresa:%s \nCUIT:%s \nPlastico_reciclado: %f",
+	        		 pedido[j].idPedido,client[i].nombreEmpresa,client[i].cuit,pedido[j].LDPE);
+	        		 break;
+	        	 case 3:
+	        		 printf("\nIdPedido%d \nNombre_Empresa:%s \nCUIT:%s \nPlastico_reciclado: %f",
+	        		 pedido[j].idPedido,client[i].nombreEmpresa,client[i].cuit,pedido[j].PP);
+				     break;
+	        	 }
+
+	        }
+	       }
+	        ret=0;
+	      }
+	     }
+	   }
+
+return ret;
+}
+
+
+int orderPPListByCriteria(Pedidos* pedido,Clients* client,int cant,int size)
+{
+	    int ret=-1;
+		int i=0;//client
+		int j=0;//pedido
+        int promedio;
+        int cantReciclado;
+
+		   if(client!= NULL && cant > 0 && pedido!= NULL && size > 0)
+		   {
+		    for(i=0;i<cant;i++)
+		     {
+		     if(client[i].isEmpty==FALSE)
+		     {
+		          for(j=0;j<size;j++)
+		           {
+		        	  if(pedido[j].isEmpty==FALSE && pedido[j].idCliente == client[i].idCliente)
+		        	  {
+		              if(pedido[j].estado==ESTADO_COMPLETADO)
+		              {
+		            	cantReciclado=(pedido[j].PP);
+		                promedio=(cantReciclado/cant);
+		 printf("\nIdPedido%d \nNombre_Empresa:%s \nCUIT:%s \nPlastico_PP_reciclado: %d",
+		 pedido[j].idPedido,client[i].nombreEmpresa,client[i].cuit,promedio);
+		 printf("____________________________________________________________________\n");
+		              }
+		              }
+		            }
+		            }
+		            }
+		            }
+return ret;
+}

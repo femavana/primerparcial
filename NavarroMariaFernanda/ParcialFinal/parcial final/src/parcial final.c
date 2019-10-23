@@ -43,7 +43,7 @@ int main(void)
 		{
 		case 1:
 			printf("\n\t______Alta_Cliente_________________________________");
-			//addClient(client,CANT_CLIENTES,&clientCount);
+			addClient(client,CANT_CLIENTES,&clientCount);
 			break;
 		case 2:
 			printf("\n\t______Modificar_Datos_Cliente______________________");
@@ -55,11 +55,11 @@ int main(void)
 			break;
 		case 4:
 			printf("\n_________Crear_Pedido_de_Recoleccion__________________ ");
-			//cargaPedido(pedido,client,CANT_CLIENTES,CANT_PEDIDOS,&pedidoCount);
+			cargaPedido(pedido,client,CANT_CLIENTES,CANT_PEDIDOS,&pedidoCount);
 			break;
 		case 5:
 			printf("\n\t________Procesar_Residuos____________________________");
-			//procesarResiduos(pedido,CANT_PEDIDOS,pedidoCount);
+			procesarResiduos(pedido,CANT_PEDIDOS,pedidoCount);
 			break;
 		case 6:
 			printf("\n\t________Imprimir_Clientes____________________________");
