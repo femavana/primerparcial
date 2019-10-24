@@ -202,7 +202,7 @@ int cargaInformes(Pedidos* pedido,Clients* client,int cant,int size)
         	         break;
         	  case 'j':
         	         printf("\n__Cantidad_kilos_de_polipropileno_reciclado_promedio_por_cliente__");
-
+        	         orderPPListByCriteria(pedido,client,CANT_CLIENTES,CANT_PEDIDOS);
         	         break;
         	  case 'k':
         	         printf("\n__Cantidad_kilos_totales_reciclados_de_cliente_por_tipo_de_plastico");
@@ -220,6 +220,7 @@ int kilosRecicladosMayorA(Pedidos* pedido,Clients* client,int cant, int size)
     int i;//client
     int j;//pedido
     int cantClientes=0;
+    int id;
 
    if(client!= NULL && cant > 0 && pedido!= NULL && size > 0)
    {
@@ -236,6 +237,7 @@ int kilosRecicladosMayorA(Pedidos* pedido,Clients* client,int cant, int size)
             	 if((pedido[j].HDPE + pedido[j].LDPE + pedido[j].PP) > 1000)
             	 {
             		 cantClientes++;
+            		 id=client[i].idCliente;
             	 }
                }
               }
@@ -245,8 +247,22 @@ int kilosRecicladosMayorA(Pedidos* pedido,Clients* client,int cant, int size)
   	ret=0;
      }
 
-   printf("\nClientes con mas de 1000 kilos reciclados: \n"
-		   "%d clientes\n",cantClientes);
+
+        if(client!= NULL && cant > 0 && cantClientes != 0)
+         {
+         for(i=0;i<cant;i++)
+          {
+          if(client[i].isEmpty==FALSE && client[i].idCliente == id)
+           {
+           printf("\nClientes con mas de 1000 kilos reciclados: \n%d clientes,ID:%d|%s\n",
+           cantClientes,client[i].idCliente,client[i].nombreEmpresa);
+           }
+          }
+         }
+         else
+         {
+           printf("\nClientes con mas de 1000 kilos reciclados: \n%d clientes\n",cantClientes);
+         }
 
   return ret;
 }
@@ -257,7 +273,7 @@ int kilosRecicladosMenorA(Pedidos* pedido,Clients* client,int cant, int size)
     int i;//client
     int j;//pedido
     int cantClientes=0;
-    char nombre[51];
+    int id;
 
    if(client!= NULL && cant > 0 && pedido!= NULL && size > 0)
    {
@@ -274,7 +290,7 @@ int kilosRecicladosMenorA(Pedidos* pedido,Clients* client,int cant, int size)
             	 if((pedido[j].HDPE + pedido[j].LDPE + pedido[j].PP) < 100)
             	 {
             		 cantClientes++;
-            		 strcpy(nombre,client[i].nombreEmpresa);
+            		 id=client[i].idCliente;
             	 }
                }
               }
@@ -284,8 +300,22 @@ int kilosRecicladosMenorA(Pedidos* pedido,Clients* client,int cant, int size)
   	ret=0;
      }
 
-   printf("\nClientes con menos de 100 kilos reciclados:\n"
-		   " %d cliente,%s\n",cantClientes,nombre);
+       if(client!= NULL && cant > 0 && cantClientes != 0)
+       {
+       for(i=0;i<cant;i++)
+        {
+        if(client[i].isEmpty==FALSE && client[i].idCliente == id)
+         {
+         printf("\nClientes con menos de 100 kilos reciclados: \n%d clientes,ID:%d|%s\n",
+         cantClientes,client[i].idCliente,client[i].nombreEmpresa);
+         }
+        }
+       }
+       else
+       {
+        printf("\nClientes con mas de 1000 kilos reciclados: \n%d clientes",cantClientes);
+        }
+
 
   return ret;
 }
@@ -371,8 +401,8 @@ int clientsMostOrders(Pedidos* pedido,Clients* client,int cant, int size)
      if(client[i].isEmpty==FALSE && maximoCliente[i] > maximo)
      {
       maximo=maximoCliente[i];
-      printf("\nEl cliente con mas pedidos es: %s con %d pedidos\n",
-       client[i].nombreEmpresa,maximo);
+      printf("\nEl cliente con mas pedidos es: \nID:%d|%s con %d pedidos\n",
+      client[i].idCliente,client[i].nombreEmpresa,maximo);
       }
      }
     ret=0;
@@ -422,8 +452,8 @@ int clientsMostOrdersPending(Pedidos* pedido,Clients* client,int cant, int size)
 	        if(client[i].isEmpty==FALSE && maximoCliente[i] > maximo)
 	        {
 	         maximo=maximoCliente[i];
-	         printf("\nEl cliente con mas pedidos pendientes es:\n %s con %d pedidos pendientes\n",
-	          client[i].nombreEmpresa,maximo);
+	         printf("\nEl cliente con mas pedidos pendientes es: \nID:%d|%s con %d pedidos pendientes\n",
+	         client[i].idCliente,client[i].nombreEmpresa,maximo);
 	         }
 	        }
 	       ret=0;
@@ -470,8 +500,8 @@ int clientsMostOrdersProcesed(Pedidos* pedido,Clients* client,int cant, int size
    	        if(client[i].isEmpty==FALSE && maximoCliente[i] > maximo)
    	        {
    	         maximo=maximoCliente[i];
-   	         printf("\nEl cliente con mas pedidos completados es:\n %s con %d pedidos completados\n",
-   	          client[i].nombreEmpresa,maximo);
+   	      printf("\nEl cliente con mas pedidos completados es: \nID:%d|%s con %d pedidos completados\n",
+   	      client[i].idCliente,client[i].nombreEmpresa,maximo);
    	         }
    	        }
    	       ret=0;
@@ -487,7 +517,7 @@ int clientsMostRecicled(Pedidos* pedido,Clients* client,int cant, int size)
     int j;//pedido
     int maximo=1;
     int cantReciclado;
-    char nombre[51];
+    int id;
 
     if(client!= NULL && cant > 0 && pedido!= NULL && size > 0)
        {
@@ -505,7 +535,7 @@ int clientsMostRecicled(Pedidos* pedido,Clients* client,int cant, int size)
                 	    if(cantReciclado > maximo)
                 	    {
                 	     maximo=cantReciclado;
-                	     strcpy(nombre,client[i].nombreEmpresa);
+                	     id=client[i].idCliente;
                 	    }
                   }
                   }
@@ -515,20 +545,29 @@ int clientsMostRecicled(Pedidos* pedido,Clients* client,int cant, int size)
         ret=0;
          }
 
-       printf("\nEl cliente con mas kilos reciclados es:\n %s con %d kilos reciclados\n",
-       nombre,maximo);
+    if(client!= NULL && cant > 0 && pedido!= NULL && size > 0)
+     {
+     for(i=0;i<cant;i++)
+      {
+      if(client[i].isEmpty==FALSE && client[i].idCliente == id)
+       {
+       printf("\nEl cliente con mas kilos reciclados es:\nID:%d|%s con %d kilos reciclados\n",
+       client[i].idCliente,client[i].nombreEmpresa,maximo);
+       }
+      }
+     }
 
   return ret;
 }
 
 int clientsLessRecicled(Pedidos* pedido,Clients* client,int cant, int size)
 {
-	 int ret=-1;
+	    int ret=-1;
 	    int i;//client
 	    int j;//pedido
 	    int minimo=50;
 	    int cantReciclado;
-	    char nombre[51];
+	    int id;
 
 	    if(client!= NULL && cant > 0 && pedido!= NULL && size > 0)
 	       {
@@ -546,7 +585,7 @@ int clientsLessRecicled(Pedidos* pedido,Clients* client,int cant, int size)
 	                	if(cantReciclado < minimo)
 	                	 {
 	                	   minimo=cantReciclado;
-	                	   strcpy(nombre,client[i].nombreEmpresa);
+	                	   id=client[i].idCliente;
 	                	  }
 	                  }
 	                  }
@@ -556,9 +595,17 @@ int clientsLessRecicled(Pedidos* pedido,Clients* client,int cant, int size)
 	        ret=0;
 	         }
 
-	       printf("\nEl cliente con menos kilos reciclados es:"
-	       "\n %s con %d kilos reciclados\n",
-	       nombre,minimo);
+	    if(client!= NULL && cant > 0 && pedido!= NULL && size > 0)
+	        {
+	        for(i=0;i<cant;i++)
+	         {
+	         if(client[i].isEmpty==FALSE && client[i].idCliente == id)
+	          {
+	          printf("\nEl cliente con menos kilos reciclados es:\nID:%d|%s con %d kilos reciclados\n",
+	          client[i].idCliente,client[i].nombreEmpresa,minimo);
+	          }
+	         }
+	        }
 
 	  return ret;
 	}
@@ -568,8 +615,9 @@ int orderProcessedListByCriteria(Pedidos* pedido,Clients* client,int cant,int si
 	    int ret=-1;
 		int i=0;//client
 		int j=0;//pedido
-        int porcentaje;
-        int cantReciclado;
+		int porcentaje[7];
+        int reciclado;
+        int cantReciclado[7];
 
 		   if(client!= NULL && cant > 0 && pedido!= NULL && size > 0)
 		   {
@@ -583,17 +631,40 @@ int orderProcessedListByCriteria(Pedidos* pedido,Clients* client,int cant,int si
 		        	  {
 		              if(pedido[j].estado==ESTADO_COMPLETADO)
 		              {
-		            	cantReciclado=(pedido[j].HDPE + pedido[j].LDPE + pedido[j].PP);
-		                porcentaje=(cantReciclado/cant);
-		 printf("\nIdPedido%d \nNombre_Empresa:%s \nCUIT:%s \nPlastico_reciclado: %d %c",
-		 pedido[j].idPedido,client[i].nombreEmpresa,client[i].cuit,porcentaje,37);
-		 printf("____________________________________________________________________\n");
+		            	reciclado=(pedido[j].HDPE + pedido[j].LDPE + pedido[j].PP);
 		              }
 		              }
 		            }
+		            cantReciclado[i]=reciclado;
+		         	reciclado=0;
 		            }
 		            }
+
 		            }
+
+		   if(client!= NULL && cant)
+		    {
+		   for(i=0;i<7;i++)
+		    {
+		    if(client[i].isEmpty==FALSE)
+		    {
+		    porcentaje[i]= (cantReciclado[i]/pedido[i].cantRecoleccion);
+		    for(j=0;j<size;j++)
+		    {
+		    if(pedido[j].isEmpty==FALSE && pedido[j].idCliente == client[i].idCliente)
+		    {
+		    if(pedido[j].estado==ESTADO_COMPLETADO)
+		    {
+		    printf("\nIdPedido%d \nNombre_Empresa:%s \nCUIT:%s \nPlastico_reciclado: %d %c\n",
+		    pedido[i].idPedido,client[i].nombreEmpresa,client[i].cuit,porcentaje[i],37);
+		    }
+		    }
+		    }
+		    }
+		    }
+		   ret=0;
+		    }
+
 
 return ret;
 }
@@ -603,47 +674,48 @@ int kilosRecicladoByTipoPlastico(Pedidos* pedido,Clients* client,int cant,int si
 	int ret=-1;
 	int i;//client
 	int j;//pedido
-    char cuit[51];
-    int option;
+    int option=0;
+    char cuit[14];
 
 	   if(client!= NULL && cant > 0 && pedido!= NULL && size > 0)
 	   {
-	    getCUIT(cuit,"Ingrese el CUIT de la empresa: ","Error!!.Ingrese ej:00-00000000-0 \n",10,14,2);
-	    for(i=0;i<cant;i++)
-	     {
-	     if(client[i].isEmpty==FALSE && strcmp(cuit,client[i].cuit)==0)
-	     {
-	        for(j=0;j<size;j++)
-	         {
-	         getInt(&option,"\nIngrese un tipo de plastico (1-HDPE ||2-LDPE||3-PP): ","Error!!.\n",1,3,2);
-	         if(pedido[j].isEmpty==FALSE && pedido[j].idCliente == client[i].idCliente)
+		   orderProcessedListByCriteria(pedido,client,cant,size);
+		   getCUIT(cuit,"\nIngrese el CUIT de la empresa: ","Error!!.Ingrese ej:00-00000000-0 \n",1,14,2);
+		   getInt(&option,"Ingrese un tipo de plastico (1-HDPE ||2-LDPE||3-PP): ","Error!!.\n",1,4,2);
+		   for(i=0;i<cant;i++)
+		   {
+		   	if(client[i].isEmpty==FALSE &&  strcmp(cuit,client[i].cuit))
+		   {
+	       for(j=0;j<size;j++)
+	       {
+	         if(pedido[j].isEmpty==FALSE && pedido[j].estado == ESTADO_COMPLETADO)
 	        {
-	        	 switch(option)
+	          while(option!=4)
+	          { switch(option)
 	        	 {
 	        	 case 1:
-	        		 printf("\nIdPedido%d \nNombre_Empresa:%s \nCUIT:%s \nPlastico_reciclado: %f",
-	        		 pedido[j].idPedido,client[i].nombreEmpresa,client[i].cuit,pedido[j].HDPE);
+	        		 printf("\nIdCliente%d \nNombre_Empresa:%s \nCUIT:%s \nCantidad_Plastico_HDPE: %.2f\n",
+	        		 client[i].idCliente,client[i].nombreEmpresa,client[i].cuit,pedido[j].HDPE);
 	        		 break;
 	        	 case 2:
-	        		 printf("\nIdPedido%d \nNombre_Empresa:%s \nCUIT:%s \nPlastico_reciclado: %f",
-	        		 pedido[j].idPedido,client[i].nombreEmpresa,client[i].cuit,pedido[j].LDPE);
+	        		 printf("\nIdCliente%d \nNombre_Empresa:%s \nCUIT:%s \nCantidad_Plastico_LDPE: %.2f\n",
+	        		 client[i].idCliente,client[i].nombreEmpresa,client[i].cuit,pedido[j].LDPE);
 	        		 break;
 	        	 case 3:
-	        		 printf("\nIdPedido%d \nNombre_Empresa:%s \nCUIT:%s \nPlastico_reciclado: %f",
-	        		 pedido[j].idPedido,client[i].nombreEmpresa,client[i].cuit,pedido[j].PP);
+	        		 printf("\nIdCliente%d \nNombre_Empresa:%s \nCUIT:%s \nCantidad_Plastico_PP: %.2f\n",
+	        	     client[i].idCliente,client[i].nombreEmpresa,client[i].cuit,pedido[j].PP);
 				     break;
 	        	 }
-
+	          option=4;
+	          }
+	        }
 	        }
 	       }
-	        ret=0;
 	      }
-	     }
+		   ret=0;
 	   }
-
 return ret;
 }
-
 
 int orderPPListByCriteria(Pedidos* pedido,Clients* client,int cant,int size)
 {
@@ -651,7 +723,9 @@ int orderPPListByCriteria(Pedidos* pedido,Clients* client,int cant,int size)
 		int i=0;//client
 		int j=0;//pedido
         int promedio;
-        int cantReciclado;
+        int cantReciclado[7];
+        int reciclado;
+        int clientes=0;
 
 		   if(client!= NULL && cant > 0 && pedido!= NULL && size > 0)
 		   {
@@ -665,16 +739,30 @@ int orderPPListByCriteria(Pedidos* pedido,Clients* client,int cant,int size)
 		        	  {
 		              if(pedido[j].estado==ESTADO_COMPLETADO)
 		              {
-		            	cantReciclado=(pedido[j].PP);
-		                promedio=(cantReciclado/cant);
-		 printf("\nIdPedido%d \nNombre_Empresa:%s \nCUIT:%s \nPlastico_PP_reciclado: %d",
-		 pedido[j].idPedido,client[i].nombreEmpresa,client[i].cuit,promedio);
-		 printf("____________________________________________________________________\n");
+		            	  reciclado=(pedido[j].PP);
+		            	  clientes++;
 		              }
 		              }
 		            }
+		          cantReciclado[i]=reciclado;
+		          reciclado=0;
 		            }
 		            }
 		            }
+
+		   if(client!= NULL && cant)
+		   {
+		    for(i=0;i<7;i++)
+		   {
+		   if(client[i].isEmpty==FALSE && pedido[i].estado==ESTADO_COMPLETADO)
+		   {
+		  	promedio=(cantReciclado[i]/clientes);
+		  	printf("\nIdPedido%d \nNombre_Empresa:%s \nCUIT:%s \nPromedio_plasticoPP_reciclado: %d",
+		  	pedido[j].idPedido,client[i].nombreEmpresa,client[i].cuit,promedio);
+		  	printf("____________________________________________________________________\n");
+		  	}
+		  	}
+		    ret=0;
+		  	}
 return ret;
 }
