@@ -688,10 +688,10 @@ int orderProcessedListByCriteria(Pedidos* pedido,Clients* client,int cant,int si
 		              }
 		              }
 		            }
-		            }
-		            }
 		    cantReciclado[i]=reciclado;
 		    reciclado=0;
+		            }
+		            }
 		            }
 
 		   if(client!= NULL && cant)
@@ -700,7 +700,7 @@ int orderProcessedListByCriteria(Pedidos* pedido,Clients* client,int cant,int si
 		    {
 		    if(client[i].isEmpty==FALSE && pedido[i].estado==ESTADO_COMPLETADO)
 		    {
-		    porcentaje=cantReciclado[i]/pedido[i].cantRecoleccion;
+		    porcentaje=(cantReciclado[i]*100)/pedido[i].cantRecoleccion;
 		    printf("\nIdPedido%d \nIdCliente%d \nNombre_Empresa:%s \nCUIT:%s \nPlastico_reciclado: %.d %c\n",
 		    pedido[i].idPedido,client[i].idCliente,client[i].nombreEmpresa,client[i].cuit,porcentaje,37);
 		      	         }
@@ -799,33 +799,24 @@ int orderPPListByCriteria(Pedidos* pedido,Clients* client,int cant,int size)
 		              }
 		            }
 		       cantReciclado[i]=pp;
+		       pp=0;
 		            }
 		            }
 		            }
 
 		   if(client!= NULL && cant > 0 && pedido!= NULL && size > 0)
 		  	{
-		  	for(i=0;i<cant;i++)
+		  	for(i=0;i<7;i++)
 		  	{
-		  	if(client[i].isEmpty==FALSE)
-		  	{
-		  	for(j=0;j<size;j++)
-		  	{
-		  	if(pedido[j].isEmpty==FALSE && pedido[j].idCliente == client[i].idCliente)
-		  	{
-		  	if(pedido[j].estado==ESTADO_COMPLETADO)
+		  	if(client[i].isEmpty==FALSE && pedido[i].estado==ESTADO_COMPLETADO)
 		  	{
 		  	promedio=(cantReciclado[i]/cantClientes);
-		  	printf("\nIdPedido%d \nNombre_Empresa:%s \nCUIT:%s \nPromedio_plasticoPP_reciclado: %d",
+		  	printf("\nIdPedido%d \nNombre_Empresa:%s \nCUIT:%s \nPromedio_plasticoPP_reciclado: %d\n",
 		  	pedido[j].idPedido,client[i].nombreEmpresa,client[i].cuit,promedio);
 		  	}
 		  	}
 		    ret=0;
 		  	}
-		  	}
-		  	}
-		  	}
 
 return ret;
 }
-
