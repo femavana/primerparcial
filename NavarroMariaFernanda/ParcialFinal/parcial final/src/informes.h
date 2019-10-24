@@ -111,5 +111,6 @@ int orderProcessedListByCriteria(Pedidos* pedido,Clients* client,int cant,int si
 */
 int orderPPListByCriteria(Pedidos* pedido,Clients* client,int cant,int size);
 
+
 #endif //  INFORMES_H_INCLUDED
 
