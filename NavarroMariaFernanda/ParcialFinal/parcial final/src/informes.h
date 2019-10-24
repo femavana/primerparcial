@@ -22,6 +22,13 @@ int orderListPending(Pedidos* pedido,Clients* client,int cant,int size);
 * \param size int size for pedido
 */
 int listClients(Pedidos* pedido,Clients* client,int cant,int size);
+/** \brief Lista los clientes y muestra la cantidad de pedidos pendientes que tiene cada uno
+ * \param pedido list pedidos*
+* \param client list Clients*
+* \param cant int size for client
+* \param size int size for pedido
+*/
+int listClientsProcesed(Pedidos* pedido,Clients* client,int cant,int size);
 /** \brief Muestra la cantidad de clientes que reciclaron mas de 1000Kg
  * \param pedido list pedidos*
 * \param client list Clients*
@@ -111,6 +118,6 @@ int orderProcessedListByCriteria(Pedidos* pedido,Clients* client,int cant,int si
 */
 int orderPPListByCriteria(Pedidos* pedido,Clients* client,int cant,int size);
 
-
 #endif //  INFORMES_H_INCLUDED
+
 
